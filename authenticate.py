@@ -3,10 +3,14 @@ Created on Sep 3, 2012
 
 @author: Jan-Christoph Klie
 '''
-import httplib2
 
-from oauth2client.client import SignedJwtAssertionCredentials 
-from apiclient.discovery import build
+
+from oauth2client.client import flow_from_clientsecrets
+
+
+flow = flow_from_clientsecrets('client_secrets.json',
+                               scope='https://www.googleapis.com/auth/calendar',
+                               redirect_uri='urn:ietf:wg:oauth:2.0:oob')
 
 event = {
          'summary' : 'Appointment',
@@ -19,24 +23,12 @@ event = {
                     }
 }
 
-
-f = file("key.p12", "rb")
-key = f.read()
-f.close()
-
-credentials = SignedJwtAssertionCredentials(
-                                                service_account_name='423291807109-jivekem4vanfq7r2avl7ctkkv241iefr@developer.gserviceaccount.com',
-                                                private_key=key,
-                                                
-                                                scope='https://www.googleapis.com/auth/calendar'                                            
-                                            )
-
-http = httplib2.Http()
-http = credentials.authorize(http)
-
-service = build('calendar', 'v3', http=http)
-request = service.events().insert(calendarId='9jehd9lrvaqpotvghihlpmj9t0@group.calendar.google.com', body=event)
-
-response = request.execute()
-
-print(response)
+auth_uri = flow.step1_get_authorize_url()
+print('Visit this site!')
+print(auth_uri)
+code = raw_input('Insert the given code!')
+credentials = flow.step2_exchange(code)
+print(credentials)
+    
+with open('credentials', 'wr') as f:
+    f.write(credentials.to_json())
