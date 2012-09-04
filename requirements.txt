@@ -1,0 +1,9 @@
+apiclient==1.0.2
+gdata==2.0.17
+google-api-python-client==1.0c3
+httplib2==0.7.5
+oauth2client==1.0c3
+python-gflags==2.0
+rfc3339==5
+urllib3==1.5
+wsgiref==0.1.2
