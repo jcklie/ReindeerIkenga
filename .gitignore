@@ -25,3 +25,12 @@ pip-log.txt
 
 #Mr Developer
 .mr.developer.cfg
+
+#Credentials
+client_secrets.json
+credentials
+
+#Project
+
+.project
+.pydevproject
