@@ -33,17 +33,6 @@ blocks.append(( datetime.date(2014, 2, 17), datetime.date(2014, 5, 9)  ))
 
 CALENDAR_ID = '9jehd9lrvaqpotvghihlpmj9t0@group.calendar.google.com'
 
-def mondays():  
-    c = calendar.Calendar()  
-    now = datetime.datetime.now()
-    for i in c.monthdatescalendar(now.year, now.month):
-        yield time.mktime(i[0].timetuple())
-        
-def get_nearest_monday():
-    today = datetime.date.today()
-    result = today + datetime.timedelta(days=-today.weekday())
-    print(result)
-    
 def extract(dates):
     data = {}
     for m in dates:
