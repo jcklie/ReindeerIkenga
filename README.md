@@ -24,4 +24,4 @@ Execute
 
 1.	Change the block plan and current block number according to your needs
 2.	Insert your calendar id.
-3.	Execute and hope the best!
+3.	Execute 'reindeer_calendar.py' and hope the best!
