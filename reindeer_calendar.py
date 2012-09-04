@@ -4,7 +4,6 @@ Created on Sep 3, 2012
 @author: Jan-Christoph Klie
 '''
 import urllib2
-import calendar
 import datetime
 import time
 import re
@@ -40,6 +39,7 @@ def extract(dates):
         s = re.findall(GRID, f.read())
         assert len(s) > 0
         data[m] = s[0]
+        print('Requested: ', URL.format(m))
     return data
 
 def parse(data):
@@ -70,14 +70,18 @@ def __create_service():
     
     return build('calendar', 'v3', http=http)
 
-def clear_calendar():    
+def clear_calendar(block):   
+    print('Clear calendar!') 
     service = __create_service()    
-    request = service.events().list(calendarId=CALENDAR_ID)   
-    response = request.execute()   
+    request = service.events().list(calendarId=CALENDAR_ID, timeMin=rfc3339.rfc3339(blocks[block][0]))   
+    response = request.execute() 
     if 'items' in response:
         for e in response['items']:
             request = service.events().delete(calendarId=CALENDAR_ID, eventId=e['id'])   
-            response = request.execute()        
+            response = request.execute() 
+        clear_calendar(block)
+    else:
+        return       
 
 def update_calendar(data):
     service = __create_service()
@@ -93,6 +97,7 @@ def update_calendar(data):
             event['summary'] = appointment[1]
             event['location'] = appointment[2]
             request = service.events().insert(calendarId=CALENDAR_ID, body=event)    
+            print(event['summary'])
             request.execute()
             
 def timestamps(block):
@@ -103,5 +108,5 @@ def timestamps(block):
         d = d + datetime.timedelta(7 - d.weekday())
                 
 if __name__ == "__main__":
-    clear_calendar()
+    clear_calendar(0)
     update_calendar(parse(extract( timestamps(0) )))
