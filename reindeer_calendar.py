@@ -97,7 +97,7 @@ def update_calendar(data):
             event['summary'] = appointment[1]
             event['location'] = appointment[2]
             request = service.events().insert(calendarId=CALENDAR_ID, body=event)    
-            print(event['summary'])
+            print(unicode(event['summary'], "utf-8"))
             request.execute()
             
 def timestamps(block):
