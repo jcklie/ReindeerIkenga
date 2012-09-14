@@ -14,6 +14,13 @@ import rfc3339
 from apiclient.discovery import build
 from oauth2client.client import Credentials
 
+import os
+
+abspath = os.path.abspath(__file__)
+dname = os.path.dirname(abspath)
+os.chdir(dname)
+
+
 URL = 'http://vorlesungsplan.dhbw-mannheim.de/index.php?action=view&gid=3067001&uid=3967001&date={0}'
 GRID = re.compile('<div class="ui-grid-e">.*(?=</div>.?</div>.?</body>)', re.DOTALL)
 
@@ -96,8 +103,8 @@ def update_calendar(data):
             event['end']['dateTime'] = __create_datetime('{0}.{1} {2}'.format(day[0], now.year, hours[1]))
             event['summary'] = appointment[1]
             event['location'] = appointment[2]
-            request = service.events().insert(calendarId=CALENDAR_ID, body=event)    
-            print(event['summary'])
+            request = service.events().insert(calendarId=CALENDAR_ID, body=event)   
+	    print(event['summary'].encode("utf-8")) 
             request.execute()
             
 def timestamps(block):
