@@ -1,7 +1,7 @@
 ReindeerIkenga
 ==============
 
-Automized extraction of the DHBW Calendar to a Google Calendar
+Automized extraction of the DHBW Mannheim Course Calendar to a Google Calendar
 
 Requirements
 -------------
