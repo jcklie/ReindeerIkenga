@@ -74,15 +74,18 @@ def extract(dates):
                 assert len(hours) == 2
                 start = __create_datetime('{0}.{1} {2}'.format(date, now.year, hours[0]))
                 end  = __create_datetime('{0}.{1} {2}'.format(date, now.year, hours[1]))
-                room = appointment.find( "div", class_='cal-res' ).text
-                text = appointment.find( "div", class_='cal-title' ).text
+
+                try:
+                    room = appointment.find( "div", class_='cal-res' ).text
+                    text = appointment.find( "div", class_='cal-title' ).text
+                except AttributeError:
+                    pass
                 appointments.append( (text, room, start, end) )
             
         data[m] = appointments
     return data
 
-def clear_calendar(block):   
-    print('Clear calendar!') 
+def clear_calendar(block):
     service = __create_service()    
     request = service.events().list(calendarId=CALENDAR_ID, timeMin=rfc3339.rfc3339(blocks[block][0]))   
     response = request.execute() 
@@ -104,21 +107,31 @@ def update_calendar(data):
          'end' :    { 'dateTime' : '' }
     }
     
-    for day in data.itervalues():     
+    for day in data.itervalues():   
+        request_out = "" 
+
         for appointment in day:
-            print(appointment)
             event['summary'] = appointment[0]
             event['location'] = appointment[1]
             event['start']['dateTime'] = appointment[2]
-            event['end']['dateTime'] = appointment[3]            
-            
+            event['end']['dateTime'] = appointment[3]
+                       
             request = service.events().insert(calendarId=CALENDAR_ID, body=event)
-            print(event)
-            print(event['summary'].encode("utf-8")) 
-            print(request.execute())
+            request_out += str(request.execute()) + "\n"
+        dump(request_out, "requests")
+            
+def dump(data, path):
+    with open(path, 'w') as f:
+        f.write( str( data ))
 
 if __name__ == "__main__":
-    data = extract( __timestamps(1) )
+    dump = lambda x, y : None    # Disable dump
+    block = 1
+    print('Get dem data!')
+    data = extract( __timestamps(block) )
+    dump( '\n'.join( sorted(['{0} {1}'.format(k,v) for k,v in data.iteritems()])   ) , "data")
+    print('Clear calendar!') 
     clear_calendar(1)
+    print('Update calendar!') 
     update_calendar(data)
     
