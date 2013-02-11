@@ -118,7 +118,7 @@ def update_calendar(data):
             print(request.execute())
 
 if __name__ == "__main__":
-    data = extract( __timestamps(0) )
-    clear_calendar(0)
+    data = extract( __timestamps(1) )
+    clear_calendar(1)
     update_calendar(data)
     
