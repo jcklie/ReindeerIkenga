@@ -11,6 +11,7 @@ import re
 import httplib2
 import rfc3339
 from bs4 import BeautifulSoup
+from __future__ import unicode_literals
 
 from apiclient.discovery import build
 from oauth2client.client import Credentials
@@ -30,7 +31,6 @@ CALENDAR_ID = '9jehd9lrvaqpotvghihlpmj9t0@group.calendar.google.com'
 '''
 
 def __create_datetime(s):
-    s = s.encode('ascii','ignore') 
     s = re.sub('T.*T', '', s)
     p = re.split('[ \.:]', s)
     return rfc3339.rfc3339(datetime.datetime(int(p[3]), int(p[2]), int(p[1]), int(p[4]), int(p[5])))
