@@ -35,3 +35,8 @@ credentials
 .project
 .pydevproject
 venv
+
+blocks.json
+data
+requests
+
