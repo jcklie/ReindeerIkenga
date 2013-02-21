@@ -4,6 +4,8 @@ Created on Sep 18, 2012
 @author: Jan-Christoph Klie
 '''
 
+from __future__ import unicode_literals
+
 import urllib2
 import datetime
 import time
@@ -11,7 +13,7 @@ import re
 import httplib2
 import rfc3339
 from bs4 import BeautifulSoup
-from __future__ import unicode_literals
+
 
 from apiclient.discovery import build
 from oauth2client.client import Credentials
