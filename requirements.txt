@@ -2,7 +2,7 @@ apiclient==1.0.2
 beautifulsoup4==4.1.3
 gdata==2.0.17
 google-api-python-client==1.0c3
-httplib2==0.7.5
+httplib2==0.18.0
 oauth2client==1.0c3
 python-gflags==2.0
 rfc3339==5
